@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>24 часа</title>
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@500;800&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            color: black;
+            text-decoration: none;
+            font-family: Alegreya;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cfcfcf;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: whitesmoke;
+        }
+        ::-webkit-scrollbar {
+            background-color: blue;
+            width: 10px;
+        }
+        #items {
+            height: 100vh;
+            width: 50vw;
+            margin: auto;
+            background-color: whitesmoke;
+            overflow-y: scroll;
+        }
+        .title {
+            display: inline-block;
+            text-align: left;
+            width: 75%;
+        }
+        .feed {
+            width: 25%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 0;
+            transition: 0.2s;
+        }
+        .item:hover {
+            background-color: #dcdcdc;
+        }
+
+        .items-feed-img {
+            height: 24px;
+            width: 24px;
+            margin: 0 10px;
+        }
+        .feed-name {
+            line-height: 100%;
+            word-wrap: break-word;
+            width: 70%;
+        }
+
+        .hours {
+            height: 70px;
+            line-height: 70px;
+            font-size: 18px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #item-count {
+            position: fixed;
+            right: 12.5%;
+            bottom: 10px;
+            transform: translateX(50%);
+            color: #4e4e4e;
+        }
+
+        #feeds {
+            border-collapse: collapse;
+            position: fixed;
+            right: 2.5%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .feed-img {
+            /*vertical-align: middle;*/
+            display: block;
+            width: 2vw;
+            height: 2vw;
+            padding: 1vw;
+        }
+        .feed-img-selected {
+            background-color: #dbdbdb;
+        }
+        .feed-img:hover {
+        }
+
+        #logo {
+            position: fixed;
+            left: 3vw;
+            top: 3vw;
+        }
+
+        #logo-img {
+            width: 5vw;
+            height: 5vw;
+        }
+
+        #logo-title {
+            display: inline-block;
+            font-size: 4vw;
+            vertical-align: top;
+            line-height: 4vw;
+            margin-left: 1vw;
+        }
+    </style>
+</head>
+<body>
+    <div id="logo">
+        <img src="/logo.svg" id="logo-img">
+        <div id="logo-title">24 часа</div>
+    </div>
+    <div id="items"></div>
+    <div id="item-count"></div>
+<!--    <div id="feeds"></div>-->
+
+    <table id="feeds">
+        <tr>
+            <td><img class="feed-img" id="rbc" src="icons/rbc.png"></td>
+            <td><img class="feed-img" id="komm" src="icons/komm.png"></td>
+            <td><img class="feed-img" id="vedom" src="icons/vedom.png"></td>
+            <td><img class="feed-img" id="rg" src="icons/rg.png"></td>
+            <td><img class="feed-img" id="lenta" src="icons/lenta.png"></td>
+        </tr>
+        <tr>
+            <td><img class="feed-img" id="rt" src="icons/rt.png"></td>
+            <td><img class="feed-img" id="life" src="icons/life.png"></td>
+            <td><img class="feed-img" id="maxim" src="icons/maxim.png"></td>
+            <td><img class="feed-img" id="habr" src="icons/habr.png"></td>
+            <td><img class="feed-img" id="rb" src="icons/rb.png"></td>
+        </tr>
+        <tr>
+            <td><img class="feed-img" id="ferra" src="icons/ferra.png"></td>
+            <td><img class="feed-img" id="cont" src="icons/cont.png"></td>
+            <td><img class="feed-img" id="cnews" src="icons/cnews.png"></td>
+            <td><img class="feed-img" id="3dnews" src="icons/3dnews.png"></td>
+            <td><img class="feed-img" id="ridus" src="icons/ridus.png"></td>
+        </tr>
+        <tr>
+            <td><img class="feed-img" id="vc" src="icons/vc.png"></td>
+            <td><img class="feed-img" id="inter" src="icons/inter.png"></td>
+            <td><img class="feed-img" id="vesti" src="icons/vesti.png"></td>
+            <td><img class="feed-img" id="aif" src="icons/aif.png"></td>
+            <td><img class="feed-img" id="ria" src="icons/ria.png"></td>
+        </tr>
+        <tr>
+            <td><img class="feed-img" id="regnum" src="icons/regnum.png"></td>
+            <td><img class="feed-img" id="rtrav" src="icons/rtrav.png"></td>
+            <td><img class="feed-img" id="nkj" src="icons/nkj.png"></td>
+            <td><img class="feed-img" id="nksc" src="icons/nksc.png"></td>
+            <td><img class="feed-img" id="postn" src="icons/postn.png"></td>
+        </tr>
+    </table>
+</body>
+<script>
+    let feeds = new Map();
+    feeds.set('rbc', {name: 'РБК',          image: 'icons/rbc.png'});
+    feeds.set('komm', {name: 'Коммерсантъ', image: 'icons/komm.png'});
+    feeds.set('vedom', {name: 'Ведомости',  image: 'icons/vedom.png'});
+    feeds.set('rg', {name: 'Rg.ru',         image: 'icons/rg.png'});
+    feeds.set('lenta', {name: 'Lenta.ru',   image: 'icons/lenta.png'});
+    feeds.set('rt', {name: 'RT',            image: 'icons/rt.png'});
+    feeds.set('life', {name: 'Life',        image: 'icons/life.png'});
+    feeds.set('maxim', {name: 'Maxim',      image: 'icons/maxim.png'});
+    feeds.set('habr', {name: 'Хабр',      image: 'icons/habr.png'});
+    feeds.set('rb', {name: 'RB.RU',      image: 'icons/rb.png'});
+    feeds.set('ferra', {name: 'Ferra.ru',      image: 'icons/ferra.png'});
+    feeds.set('cont', {name: 'Content Review',      image: 'icons/cont.png'});
+    feeds.set('cnews', {name: 'CNews',      image: 'icons/cnews.png'});
+    feeds.set('3dnews', {name: '3DNews',      image: 'icons/3dnews.png'});
+    feeds.set('ridus', {name: 'Ридус',      image: 'icons/ridus.png'});
+    feeds.set('vc', {name: 'Vc.ru',      image: 'icons/vc.png'});
+    feeds.set('inter', {name: 'Интерфакс',      image: 'icons/inter.png'});
+    feeds.set('vesti', {name: 'Вести',      image: 'icons/vesti.png'});
+    feeds.set('aif', {name: 'АиФ',      image: 'icons/aif.png'});
+    feeds.set('ria', {name: 'РИА Новости',      image: 'icons/ria.png'});
+    feeds.set('regnum', {name: 'Regnum',      image: 'icons/regnum.png'});
+    feeds.set('rtrav', {name: 'Russian Traveler',      image: 'icons/rtrav.png'});
+    feeds.set('nkj', {name: 'Наука и жизнь',      image: 'icons/nkj.png'});
+    feeds.set('nksc', {name: 'Naked Science',      image: 'icons/nksc.png'});
+    feeds.set('postn', {name: 'ПостНаука',      image: 'icons/postn.png'});
+
+    let selectedFeeds = [];
+    if (localStorage.selectedFeeds) {
+        selectedFeeds = JSON.parse(localStorage.getItem("selectedFeeds"));
+    } else {
+        feeds.forEach((value, key) => {
+            selectedFeeds.push(key);
+        })
+    }
+
+    let itemsDIV = document.getElementById('items');
+    let itemsCountDIV = document.getElementById('item-count');
+    //let feedsDIV = document.getElementById('feeds');
+    let http = new XMLHttpRequest();
+    http.open( "GET", "/get_items", false );
+    http.send();
+    let itemsJSON = http.responseText;
+    let items = JSON.parse(itemsJSON).items;
+
+    function updateItems() {
+        let itemsHTML = '';
+        let currentDate = new Date();
+        let lastHour = 0;
+        let itemsCount = 0;
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            if (selectedFeeds.includes(item.feed)) {
+                let diffTime = Math.abs(currentDate - Date.parse(item.pubDate));
+                let diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+                if (diffHours > lastHour) {
+                    lastHour = diffHours;
+                    let hoursHTML = `<div class="hours">${getHoursCaption(diffHours)}</div>`;
+                    itemsHTML += hoursHTML;
+                }
+                let feed = feeds.get(item.feed);
+                let html = `<a href="${item.link}" target="_blank"><div class="item"><div class="feed"><img src="${feed.image}" class="items-feed-img"><span class="feed-name">${feed.name}</span></div><div class="title">${item.title}</div></div></a>`;
+                itemsHTML += html;
+                itemsCount ++;
+            }
+        }
+        itemsDIV.innerHTML = itemsHTML;
+        let countCaption = itemsCount.toString();
+        let rem = itemsCount % 100;
+        if(rem < 11 || rem > 14){
+            rem = itemsCount % 10;
+            if(rem === 1) {
+                countCaption += ' статья';
+            } else if(rem >= 2 && rem <= 4) {
+                countCaption += ' статьи';
+            } else {
+                countCaption += ' статей'
+            }
+        } else {
+            countCaption += ' статей'
+        }
+        countCaption += ' за 24 часа';
+        itemsCountDIV.innerText = countCaption;
+    }
+
+    function getHoursCaption(hours) {
+        let caption = hours + ' ';
+        if (hours === 1 || hours === 21) {
+            caption += 'час'
+        } else if ((hours > 1 && hours < 5) || hours > 21) {
+            caption += 'часа'
+        } else if (hours > 4 &&  hours < 21) {
+            caption += 'часов'
+        }
+        caption += ' назад'
+        return caption;
+    }
+
+    function saveLocalData() {
+        localStorage.setItem("selectedFeeds", JSON.stringify(selectedFeeds));
+    }
+
+    // let feedsHTML = '';
+    // feeds.forEach((value, key) => {
+    //     let selectedClass = selectedFeeds.includes(key) ? 'feed-img-selected' : '';
+    //     feedsHTML += `<img class="feed-img ${selectedClass}" id="${key}" src="${value.image}">`;
+    // })
+    // feedsDIV.innerHTML = feedsHTML;
+
+    feeds.forEach((value, key) => {
+        let feedIMG = document.getElementById(key);
+        if (selectedFeeds.includes(key)) {
+            feedIMG.classList.add('feed-img-selected');
+        }
+        feedIMG.onclick = function () {
+            if (selectedFeeds.includes(key)) {
+                selectedFeeds.splice(selectedFeeds.indexOf(key), 1);
+                feedIMG.classList.remove('feed-img-selected');
+            } else {
+                selectedFeeds.push(key);
+                feedIMG.classList.add('feed-img-selected');
+            }
+            updateCounter = 1;
+        }
+    });
+
+    updateItems();
+
+    let updateCounter = -1;
+
+    setInterval(function () {
+        if (updateCounter > -1) {
+            updateCounter--;
+        }
+        if (updateCounter === 0) {
+            console.log("A");
+            saveLocalData();
+            updateItems();
+        }
+    }, 1000)
+</script>
+</html>
