@@ -63,12 +63,12 @@ public class Telegram {
 
         @Override
         public String getBotUsername() {
-            return "HAL";
+            return "";
         }
 
         @Override
         public String getBotToken() {
-            return "5321370449:AAEjOhmwlRFijwkf28w_zqqbALapQB0PlxE";
+            return "";
         }
     }
 }
